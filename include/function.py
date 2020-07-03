@@ -10,7 +10,7 @@ from .AESCipher import AESCipher
 session = requests.session()
 
 
-def login(username, password):
+def send(username, password):
     # get login params
     respond = session.get(LOGIN_URL)
     lt = re.search('name="lt" value="(.*?)"/>', respond.text, re.S).group(1)
@@ -31,10 +31,13 @@ def login(username, password):
     respond = session.post(LOGIN_URL, data=params)
 
     # get APP_data & update cookie
-    app_data = {
-        "APPID": re.search("APPID='(.*?)';", respond.text, re.S).group(1),
-        "APPNAME": re.search("APPNAME='(.*?)';", respond.text, re.S).group(1)
-    }
+    try:
+        app_data = {
+            "APPID": re.search("APPID='(.*?)';", respond.text, re.S).group(1),
+            "APPNAME": re.search("APPNAME='(.*?)';", respond.text, re.S).group(1)
+        }
+    except AttributeError:
+        return 500, "用户名或密码错误，请更正后再试"
 
     session.post(UPDATE_COOKIE_URL, data={
         'data': json.dumps(app_data)
@@ -56,3 +59,5 @@ def login(username, password):
     # send report
     respond = session.post(SAVE_INFO_POST_URL, data={'formData': data}, headers=header)
     print(respond.text)
+
+    return 0, "报告完毕"
