@@ -28,7 +28,7 @@ def userList():
 @app.route('/delete', methods=['POST'])
 def userDel():
     data = request.json
-    results = User.select().where(User.token == data['token'], User.user_id == data['user_id']).get()
+    results = User.select().where(User.token == data['token']).get()
     results.status = Status.removed
     results.save()
     return jsonify({'status': 'deleted!'})
@@ -37,10 +37,10 @@ def userDel():
 @app.route('/check-now', methods=['POST'])
 def userCheck():
     data = request.json
-    results = User.select().where(User.token == data['token'], User.user_id == data['user_id']).get()
+    results = User.select().where(User.token == data['token']).get()
     msg = send(results.user_id, results.user_pwd)
     if msg[0] == 0:
-        results.latest_response_time = datetime.datetime.now
+        results.latest_response_time = datetime.datetime.now()
         results.save()
     return jsonify({'msg': msg[1]})
 

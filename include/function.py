@@ -1,6 +1,6 @@
 import re
 import time
-
+import urllib.parse
 import requests
 import json
 
@@ -41,23 +41,27 @@ def send(username, password):
 
     session.post(UPDATE_COOKIE_URL, data={
         'data': json.dumps(app_data)
-    }, headers=header)
+    }, headers=HEADER)
 
     # get user last report info
     respond = session.post(GET_INFO_POST_URL, data={
         "USER_ID": username
-    }, headers=header)
+    }, headers=HEADER)
 
     data = respond.json()['datas']
-    data.update({
-        "OPERATE_DATE": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
-        "REPORT_DATE": time.strftime("%Y-%m-%d", time.localtime()), "WID": "", "ZSDZ": "", "SXFS": "", "SFZZSXDWSS": "",
-        "FSSJ": "", "FXSJ": "", "FHTJGJ": "", "QTXYSMDJWQK": "", "SSSQ": "", "XSQBDSJ": "", "JSJJGCJTSJ": "",
-        "JSJTGCJTSJ": "", "JSJJJTGCYY": "", "STYCZK": "", "STYXZK": ""
-    })
+
+    # check for duplicate reports
+    if data['REPORT_DATE'] != time.strftime("%Y-%m-%d", time.localtime()):
+        data.update({"WID": ""})
+
+    data.update(UPDATE_DATA)
+
+    encode_data = urllib.parse.quote_plus(json.dumps(data,ensure_ascii=False))
 
     # send report
-    respond = session.post(SAVE_INFO_POST_URL, data={'formData': data}, headers=header)
-    print(respond.text)
+    respond = session.post(SAVE_INFO_POST_URL, data='formData='+encode_data, headers=HEADER_SAVE)
 
-    return 0, "报告完毕"
+    if respond.text == '{"datas":1,"code":"0"}':
+        return 0, "报告完毕"
+    else:
+        return 500, "填报错误，可能表单已更新"
