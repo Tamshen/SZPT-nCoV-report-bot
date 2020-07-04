@@ -22,14 +22,14 @@ def userAdd():
         user_id=data['user_id'],
         user_pwd=data['user_pwd']
     )
-    return jsonify({'status': 'success!','data': {'token': token}})
+    return jsonify({'status': 'success!', 'data': {'token': token}})
 
 
 @app.route('/get/<token>')
 def userInfo(token):
     try:
-        results = User.select(User.token, User.name, User.id, User.latest_response_time, User.status, User.update_time)\
-        .where(User.token == token).dicts().get()
+        results = User.select(User.token, User.name, User.id, User.user_id, User.latest_response_time,
+                              User.status, User.update_time).where(User.token == token).dicts().get()
         return jsonify({'data': results})
     except:
         return jsonify({'data': 'undefined'})
@@ -64,7 +64,8 @@ def userCheck(token):
 
 def backup_db():
     logger.info("backup started!")
-    copyfile('./nCoV-robot.db', './backup/nCoV-robot.{}.db'.format(str(datetime.datetime.now()).replace(":","").replace(" ","_")))
+    copyfile('./nCoV-robot.db',
+             './backup/nCoV-robot.{}.db'.format(str(datetime.datetime.now()).replace(":", "").replace(" ", "_")))
     logger.info("backup finished!")
 
 
@@ -89,6 +90,7 @@ def checkin_all():
 
 def after_request(resp):
     resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Access-Control-Allow-Headers'] = 'Content-Type'
     return resp
 
 
@@ -118,7 +120,9 @@ def main():
     )
 
     scheduler.start()
-    logger.info(["name: %s, trigger: %s, handler: %s, next: %s" % (job.name, job.trigger, job.func, job.next_run_time) for job in scheduler.get_jobs()])
+    logger.info(
+        ["name: %s, trigger: %s, handler: %s, next: %s" % (job.name, job.trigger, job.func, job.next_run_time) for job
+         in scheduler.get_jobs()])
 
     # exit()
     app.after_request(after_request)
@@ -126,7 +130,7 @@ def main():
 
 
 if __name__ == '__main__':
-    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO,handlers=[
+    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO, handlers=[
         logging.handlers.TimedRotatingFileHandler(
             "log/main", when='midnight', backupCount=30, encoding='utf-8',
             atTime=datetime.time(hour=0, minute=0)
