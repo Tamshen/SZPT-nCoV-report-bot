@@ -116,7 +116,7 @@ def main():
     logger.info(["name: %s, trigger: %s, handler: %s, next: %s" % (job.name, job.trigger, job.func, job.next_run_time) for job in scheduler.get_jobs()])
 
     # exit()
-    app.run(debug=DEBUG_MODE)
+    app.run(debug=DEBUG_MODE, host=BIND_HOST, port=BIND_PORT)
 
 
 if __name__ == '__main__':

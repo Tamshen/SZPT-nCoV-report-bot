@@ -1,6 +1,8 @@
 import time
 
 DEBUG_MODE = False
+BIND_HOST = '0.0.0.0'
+BIND_PORT = 8848
 """
 请求地址，一般不用更改
 """
