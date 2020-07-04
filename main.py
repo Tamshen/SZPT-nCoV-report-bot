@@ -87,6 +87,11 @@ def checkin_all():
     logger.info("check_all success!")
 
 
+def after_request(resp):
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
+
+
 def main():
     # args
     parser = argparse.ArgumentParser(description="SZPT nCoV Report Bot")
@@ -116,6 +121,7 @@ def main():
     logger.info(["name: %s, trigger: %s, handler: %s, next: %s" % (job.name, job.trigger, job.func, job.next_run_time) for job in scheduler.get_jobs()])
 
     # exit()
+    app.after_request(after_request)
     app.run(debug=DEBUG_MODE, host=BIND_HOST, port=BIND_PORT)
 
 
@@ -129,5 +135,6 @@ if __name__ == '__main__':
     ])
     logger = logging.getLogger('Main')
 
+    logger.info("======== Starting ==========")
     scheduler = BackgroundScheduler(timezone=CRON_TIMEZONE)
     main()
