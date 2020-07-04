@@ -1,5 +1,4 @@
 import datetime
-
 from peewee import *
 
 database_proxy = DatabaseProxy()

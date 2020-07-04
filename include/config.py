@@ -1,5 +1,6 @@
 import time
 
+DEBUG_MODE = False
 """
 请求地址，一般不用更改
 """
@@ -9,9 +10,11 @@ GET_INFO_POST_URL = 'https://ehall.szpt.edu.cn/publicappinternet/sys/szptpubxsjk
 SAVE_INFO_POST_URL = 'https://ehall.szpt.edu.cn/publicappinternet/sys/szptpubxsjkxxbs/mrxxbs/saveReportInfo.do'
 
 """
-时区
+时间相关
 """
 CRON_TIMEZONE = 'Asia/Shanghai'
+CRON_HOUR = 00
+CRON_MINUTE = 13
 
 """
 请求头，一般不用更改

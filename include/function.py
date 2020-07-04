@@ -12,11 +12,14 @@ session = requests.session()
 
 def send(username, password):
     # get login params
-    respond = session.get(LOGIN_URL)
-    lt = re.search('name="lt" value="(.*?)"/>', respond.text, re.S).group(1)
-    execution = re.search('name="execution" value="(.*?)"/>', respond.text, re.S).group(1)
-    aes_key = re.search('pwdDefaultEncryptSalt = "(.*?)";', respond.text, re.S).group(1)
-    password_aes = AESCipher(aes_key).encrypt(password)
+    try:
+        respond = session.get(LOGIN_URL)
+        lt = re.search('name="lt" value="(.*?)"/>', respond.text, re.S).group(1)
+        execution = re.search('name="execution" value="(.*?)"/>', respond.text, re.S).group(1)
+        aes_key = re.search('pwdDefaultEncryptSalt = "(.*?)";', respond.text, re.S).group(1)
+        password_aes = AESCipher(aes_key).encrypt(password)
+    except:
+        return 500, "用户名或密码错误，请更正后再试"
 
     # build LOGIN request
     params = {
