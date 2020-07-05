@@ -54,8 +54,8 @@ def send(username, password):
     data = respond.json()['datas']
 
     # check for duplicate reports
-    if data['REPORT_DATE'] != time.strftime("%Y-%m-%d", time.localtime()):
-        data.update({"WID": ""})
+    if data['OPERATE_DATE'][:10] != time.strftime("%Y-%m-%d", time.localtime()):
+        data.update({'WID': ''})
 
     data.update(UPDATE_DATA)
 
