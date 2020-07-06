@@ -7,10 +7,9 @@ import json
 from .config import *
 from .AESCipher import AESCipher
 
-session = requests.session()
-
 
 def send(username, password):
+    session = requests.session()
     # get login params
     try:
         respond = session.get(LOGIN_URL)
@@ -19,7 +18,7 @@ def send(username, password):
         aes_key = re.search('pwdDefaultEncryptSalt = "(.*?)";', respond.text, re.S).group(1)
         password_aes = AESCipher(aes_key).encrypt(password)
     except:
-        return 500, "用户名或密码错误，请更正后再试"
+        return 501, "登录页面获取失败"
 
     # build LOGIN request
     params = {
