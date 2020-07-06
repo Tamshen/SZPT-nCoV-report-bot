@@ -88,6 +88,23 @@ def checkin_all():
     logger.info("check_all success!")
 
 
+@app.route('/check-all')
+def checkin_all_re():
+    logger.info("checkin_all_re started!")
+    for user in User.select():
+        msg = send(user.user_id, user.user_pwd)
+        if msg[0] == 0:
+            user.latest_response_time = datetime.datetime.now()
+            user.save()
+            logger.info(f"用户: {user.token}\t学号: {user.user_id} 签到成功")
+        else:
+            user.status = Status.warning
+            user.save()
+            logger.info(f"用户: {user.token}\t学号: {user.user_id} 签到失败\t原因: {msg[1]}")
+    logger.info("check_all_re success!")
+    return jsonify({'msg': "check_all_re success!"})
+
+
 def after_request(resp):
     resp.headers['Access-Control-Allow-Origin'] = '*'
     resp.headers['Access-Control-Allow-Headers'] = 'Content-Type'
