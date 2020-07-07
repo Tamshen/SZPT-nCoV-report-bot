@@ -2,4 +2,4 @@ peewee==3.13.3
 requests==2.24.0
 Flask==1.1.2
 APScheduler==3.6.3
-pycrypto==3.9.8
+pycrypto==2.6.1

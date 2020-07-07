@@ -91,7 +91,7 @@ def checkin_all():
 @app.route('/check-all')
 def checkin_all_re():
     logger.info("checkin_all_re started!")
-    for user in User.select():
+    for user in User.select().where(User.status != Status.removed):
         msg = send(user.user_id, user.user_pwd)
         if msg[0] == 0:
             user.latest_response_time = datetime.datetime.now()
