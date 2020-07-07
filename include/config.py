@@ -15,8 +15,11 @@ SAVE_INFO_POST_URL = 'https://ehall.szpt.edu.cn/publicappinternet/sys/szptpubxsj
 时间相关
 """
 CRON_TIMEZONE = 'Asia/Shanghai'
-CRON_HOUR = 8
+CRON_HOUR = 7
 CRON_MINUTE = 30
+
+CRON_HOUR_RE = 8
+CRON_MINUTE_RE = 0
 
 """
 请求头，一般不用更改

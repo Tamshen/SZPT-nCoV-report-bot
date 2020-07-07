@@ -136,6 +136,17 @@ def main():
         misfire_grace_time=10,
     )
 
+    scheduler.add_job(
+        func=checkin_all_re,
+        id='checkin_all_re',
+        trigger="cron",
+        hour=CRON_HOUR_RE,
+        minute=CRON_MINUTE_RE,
+        max_instances=1,
+        replace_existing=False,
+        misfire_grace_time=10,
+    )
+
     scheduler.start()
     logger.info(
         ["name: %s, trigger: %s, handler: %s, next: %s" % (job.name, job.trigger, job.func, job.next_run_time) for job
