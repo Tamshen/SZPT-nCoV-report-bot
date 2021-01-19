@@ -5,9 +5,9 @@ on:
     branches: [ master ]
   watch:
     types: started
-  schedule:
-#   七点自动填报 (UTC 23:00)
-    - cron: '0 23 * * *'
+#  schedule:
+##   七点自动填报 (UTC 23:00)
+#    - cron: '0 23 * * *'
 
 jobs:
   report:
