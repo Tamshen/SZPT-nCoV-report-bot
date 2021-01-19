@@ -4,6 +4,7 @@ import re
 import os
 import pytz
 from urllib import parse
+from requests.adapters import HTTPAdapter
 from requests_html import HTMLSession
 from configparser import ConfigParser
 from module.AESCipher import *
@@ -28,9 +29,10 @@ def main():
     code, msg = report(username, password)
     if server_chan_enable == 1:
         session = HTMLSession()
+        session.mount('http://', HTTPAdapter(max_retries=3))
         session.get('http://sc.ftqq.com/' + sckey + '.send', params={
             'text': msg
-        })
+        }, timeout=5)
     else:
         print(msg)
 
