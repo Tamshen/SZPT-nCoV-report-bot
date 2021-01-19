@@ -13,7 +13,7 @@ config.read("config/config.ini", encoding="utf-8")
 if config.getint("workflow", "enable") == 1:
     username = os.environ['USERNAME']
     password = os.environ['PASSWORD']
-    server_chan_enable = os.environ['ENABLE_SERVER_CHAN']
+    server_chan_enable = int(os.environ['ENABLE_SERVER_CHAN'])
     sckey = os.environ['SCKEY']
 else:
     username = config.get("user", "username")
