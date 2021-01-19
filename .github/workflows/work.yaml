@@ -15,4 +15,8 @@ jobs:
         with:
           persist-credentials: false
       - name: Run script
+<<<<<<< HEAD
         run: python3 setup.py
+=======
+        run: python3 setup.py
+>>>>>>> origin/master
