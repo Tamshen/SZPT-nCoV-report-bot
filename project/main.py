@@ -71,8 +71,6 @@ def report(username, password):
     except AttributeError:
         return 500, "用户名或密码错误，请更正后再试"
 
-    print(app_data)
-
     # Update cookies
     session.post(ehall_update_cookie_url, data={
         'data': json.dumps(app_data)
@@ -92,7 +90,7 @@ def report(username, password):
     if respond.json()['code'] == '0':
         return 200, username + "  提交成功"
     else:
-        return 500, "未知异常"
+        return 500, respond.json()
 
 
 if __name__ == '__main__':
