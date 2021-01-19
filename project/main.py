@@ -1,6 +1,8 @@
+import datetime
 import json
 import re
 import os
+import pytz
 from urllib import parse
 from requests_html import HTMLSession
 from configparser import ConfigParser
@@ -83,9 +85,13 @@ def report(username, password):
     data = respond.json()['datas']
 
     # Fix null value
+    if data['OPERATE_DATE'][:10] != datetime.datetime.now(tz=pytz.timezone('Asia/Shanghai')).strftime("%Y-%m-%d"):
+        data.update({'WID': ''})
+
     fixer = {
-        "WID": "", "ZSDZ": "", "SXFS": "", "SFZZSXDWSS": "", "FSSJ": "", "FXSJ": "", "SSSQ": "", "XSQBDSJ": "",
-        "JSJJGCJTSJ": "", "JSJTGCJTSJ": "", "JSJJJTGCYY": "", "STYCZK": "", "STYXZK": ""
+        "ZSDZ": "", "SXFS": "", "SFZZSXDWSS": "",
+        "FSSJ": "", "FXSJ": "", "FHTJGJ": "", "QTXYSMDJWQK": "", "SSSQ": "", "XSQBDSJ": "", "JSJJGCJTSJ": "",
+        "JSJTGCJTSJ": "", "JSJJJTGCYY": "", "STYCZK": "", "STYXZK": "", "QYTZWTW": "", "QYTWSTW": "", "DTZSTW": ""
     }
     data.update(fixer)
 
