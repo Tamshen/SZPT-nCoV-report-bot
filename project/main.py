@@ -26,7 +26,7 @@ def main():
     code, msg = report(username, password)
     if server_chan_enable == 1:
         session = HTMLSession()
-        session.get('https://sc.ftqq.com/' + sckey + '.send', params={
+        session.get('http://sc.ftqq.com/' + sckey + '.send', params={
             'text': msg
         })
     else:
