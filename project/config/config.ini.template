@@ -1,0 +1,14 @@
+[url]
+login_domain = authserver.szpt.edu.cn
+ehall_url = https://ehall.szpt.edu.cn/publicappinternet/sys/szptpubxsjkxxbs/*default/index.do#/
+ehall_update_cookie_url = https://ehall.szpt.edu.cn/publicappinternet/sys/itpub/MobileCommon/getMenuInfo.do
+ehall_getdata_url = https://ehall.szpt.edu.cn/publicappinternet/sys/szptpubxsjkxxbs/mrxxbs/getSaveReportInfo.do
+ehall_savedata_url = https://ehall.szpt.edu.cn/publicappinternet/sys/szptpubxsjkxxbs/mrxxbs/saveReportInfo.do
+
+[user]
+username = # 用户名
+password = # 密码
+
+[server-chan]
+enable = 1 # server-chan 开关
+sckey = # server-chan 密钥

@@ -1,17 +1,29 @@
 import json
 import re
 from urllib import parse
-
-from requests_html import HTMLSession, user_agent
+from requests_html import HTMLSession
 from configparser import ConfigParser
 from module.AESCipher import *
 
+# Read config.
+config = ConfigParser()
+config.read("config/config.ini", encoding="utf-8")
+
 
 def main():
-    # Read config.
-    config = ConfigParser()
-    config.read("config/config.ini", encoding="utf-8")
+    username = config.get("user", "username")
+    password = config.get("user", "password")
+    code, msg = report(username, password)
+    if config.getint("server-chan", "enable") == 1:
+        session = HTMLSession()
+        session.get('https://sc.ftqq.com/' + config.get("server-chan", "sckey") + '.send', params={
+            'text': msg
+        })
+    else:
+        print(msg)
 
+
+def report(username, password):
     ehall_url = config.get("url", "ehall_url")
     login_domain = config.get("url", "login_domain")
     ehall_getdata_url = config.get("url", "ehall_getdata_url")
@@ -32,9 +44,9 @@ def main():
         'execution': 'e1s1',
         '_eventId': 'submit',
         'rmShown': 1,
-        'username': config.get("user", "username"),
+        'username': username,
         'lt': respond.html.find('input[name="lt"]', first=True).attrs["value"],
-        'password': AESCipher(salt).encrypt(config.get("user", "password"))
+        'password': AESCipher(salt).encrypt(password)
     }
 
     # Login post
@@ -60,17 +72,16 @@ def main():
     # Report Post
     data = respond.json()['datas']
     encode_data = parse.quote_plus(json.dumps(data, ensure_ascii=False))
-    respond = session.post(ehall_savedata_url, data='formData=' + encode_data, headers = {
+    respond = session.post(ehall_savedata_url, data='formData=' + encode_data, headers={
         'Content-type': 'application/x-www-form-urlencoded'
     })
 
     # Validator
     if respond.json()['code'] == '0':
-        return 200, "提交成功"
+        return 200, username + "  提交成功"
     else:
         return 500, "未知异常"
 
 
 if __name__ == '__main__':
-    code, msg = main()
-    print(msg)
+    main()
