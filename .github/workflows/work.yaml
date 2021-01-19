@@ -35,7 +35,7 @@ jobs:
         ENABLE_SERVER_CHAN: ${{ secrets.ENABLE_SERVER_CHAN }}
         SCKEY: ${{ secrets.SCKEY }}
       run: |
-        python setup.py
+        python ./project/main.py
 
 #    - name: Test with pytest
 #      run: |
