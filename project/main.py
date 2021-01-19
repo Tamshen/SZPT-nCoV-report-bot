@@ -1,5 +1,6 @@
 import json
 import re
+import os
 from urllib import parse
 from requests_html import HTMLSession
 from configparser import ConfigParser
@@ -9,14 +10,23 @@ from module.AESCipher import *
 config = ConfigParser()
 config.read("config/config.ini", encoding="utf-8")
 
-
-def main():
+if config.getint("workflow", "enable") == 1:
+    username = os.environ['USERNAME']
+    password = os.environ['PASSWORD']
+    server_chan_enable = os.environ['ENABLE_SERVER_CHAN']
+    sckey = os.environ['SCKEY']
+else:
     username = config.get("user", "username")
     password = config.get("user", "password")
+    server_chan_enable = config.getint("server-chan", "enable")
+    sckey = config.get("server-chan", "sckey")
+
+
+def main():
     code, msg = report(username, password)
-    if config.getint("server-chan", "enable") == 1:
+    if server_chan_enable == 1:
         session = HTMLSession()
-        session.get('https://sc.ftqq.com/' + config.get("server-chan", "sckey") + '.send', params={
+        session.get('https://sc.ftqq.com/' + sckey + '.send', params={
             'text': msg
         })
     else:

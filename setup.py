@@ -1,2 +1,3 @@
 #!/bin/python3
-print("WorkFlow Test")
+import os
+print(os.environ['ENABLE_SERVER_CHAN'])
