@@ -21,4 +21,4 @@ jobs:
           python-version: 3.9
 
       - name: Run script
-          run: python3 setup.py
+          run: python setup.py
