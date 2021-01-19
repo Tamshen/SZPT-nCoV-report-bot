@@ -32,10 +32,11 @@ jobs:
       env:
         USERNAME: ${{ secrets.USERNAME }}
         PASSWORD: ${{ secrets.PASSWORD }}
-        ENABLE_SERVER_CHAN: ${{ secrets.ENABLE_SERVER_CHAN }}
+        ENABLE_SERVER_CHAN: 1
         SCKEY: ${{ secrets.SCKEY }}
       run: |
-        python ./project/main.py
+        cd project
+        python main.py
 
 #    - name: Test with pytest
 #      run: |
