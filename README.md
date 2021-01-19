@@ -13,7 +13,24 @@ Run pip install -r requirements.txt to install required components.
 
 ### Deployment
 
+If you need to run locally, please edit `project/config/config.ini`.
 
+Then just run `cd project` and `python main.py`.
+
+
+In addition, you can also use Github Action to automate reporting.
+
+Just
+- Star and fork this repo
+- Go to the forked repo Settings > Secrets
+- Add the following environment variables:
+    - **USERNAME**: Your login username, which is usually your student number.
+    - **PASSWORD**: Your login password.
+    - **SCKEY**: The [Server-Chan Secret Key](http://sc.ftqq.com/),if you need WeChat notifications.
+
+**Note**:
+
+If you are not using Server-Chan,please set `ENABLE_SERVER_CHAN` to `0` in `.github/workflow/work.yaml`
 
 ### Contributing
 
