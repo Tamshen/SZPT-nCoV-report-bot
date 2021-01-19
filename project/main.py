@@ -81,6 +81,14 @@ def report(username, password):
 
     # Report Post
     data = respond.json()['datas']
+
+    # Fix null value
+    fixer = {
+        "WID": "", "ZSDZ": "", "SXFS": "", "SFZZSXDWSS": "", "FSSJ": "", "FXSJ": "", "SSSQ": "", "XSQBDSJ": "",
+        "JSJJGCJTSJ": "", "JSJTGCJTSJ": "", "JSJJJTGCYY": "", "STYCZK": "", "STYXZK": ""
+    }
+    data.update(fixer)
+
     encode_data = parse.quote_plus(json.dumps(data, ensure_ascii=False))
     respond = session.post(ehall_savedata_url, data='formData=' + encode_data, headers={
         'Content-type': 'application/x-www-form-urlencoded'
