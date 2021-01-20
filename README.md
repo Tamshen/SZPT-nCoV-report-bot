@@ -27,6 +27,8 @@ Just
     - **USERNAME**: Your login username, which is usually your student number.
     - **PASSWORD**: Your login password.
     - **SCKEY**: The [Server-Chan Secret Key](http://sc.ftqq.com/),if you need WeChat notifications.
+    - **BOT_TOKEN**: The [Telegram Bot Token](http://t.me/),if you need Telegram notifications.
+    - **CHAT_ID**: The [Telegram Bot](http://t.me/) to chat user id.You can find your chat id at [Sean_Bot](http://t.me/Sean_Bot)
 
 **Note**:
 
