@@ -1,12 +1,14 @@
 import datetime
 import json
-import re
 import os
-import pytz
+import re
+from configparser import ConfigParser
 from urllib import parse
+
+import pytz
 from requests.adapters import HTTPAdapter
 from requests_html import HTMLSession
-from configparser import ConfigParser
+
 from module.AESCipher import *
 
 # Read config.
@@ -18,23 +20,34 @@ if config.getint("workflow", "enable") == 1:
     password = os.environ['PASSWORD']
     server_chan_enable = int(os.environ['ENABLE_SERVER_CHAN'])
     sckey = os.environ['SCKEY']
+    telegram_bot_enable = int(os.environ['ENABLE_TELEGRAM'])
+    telegram_bot_token = os.environ['BOT_TOKEN']
+    telegram_chat_id = os.environ['CHAT_ID']
 else:
     username = config.get("user", "username")
     password = config.get("user", "password")
     server_chan_enable = config.getint("server-chan", "enable")
     sckey = config.get("server-chan", "sckey")
+    telegram_bot_enable = config.getint("telegram", "enable")
+    telegram_bot_token = config.get("telegram", "bot_token")
+    telegram_chat_id = config.get("telegram", "chat_id")
 
 
 def main():
     code, msg = report(username, password)
+    session = HTMLSession()
+    session.mount('http://', HTTPAdapter(max_retries=3))
+    session.mount('https://', HTTPAdapter(max_retries=3))
     if server_chan_enable == 1:
-        session = HTMLSession()
-        session.mount('http://', HTTPAdapter(max_retries=3))
         session.get('http://sc.ftqq.com/' + sckey + '.send', params={
             'text': msg
         }, timeout=5)
-    else:
-        print(msg)
+    if telegram_bot_enable == 1:
+        session.get('https://api.telegram.org/bot' + telegram_bot_token + '/sendMessage', params={
+            'chat_id': telegram_chat_id,
+            'text': msg
+        })
+    print(msg)
 
 
 def report(username, password):

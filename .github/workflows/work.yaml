@@ -37,6 +37,9 @@ jobs:
         PASSWORD: ${{ secrets.PASSWORD }}
         ENABLE_SERVER_CHAN: 1
         SCKEY: ${{ secrets.SCKEY }}
+        ENABLE_TELEGRAM: 1
+        BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+        CHAT_ID: ${{ secrets.CHAT_ID }}
       run: |
         cd project
         python main.py

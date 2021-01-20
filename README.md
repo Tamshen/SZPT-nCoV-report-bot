@@ -30,7 +30,7 @@ Just
 
 **Note**:
 
-If you are not using Server-Chan,please set `ENABLE_SERVER_CHAN` to `0` in `.github/workflow/work.yaml`
+If you are not using Server-Chan or Telegram Bot,please set `ENABLE_SERVER_CHAN` and  to `0` in `.github/workflow/work.yaml`
 
 ### Contributing
 
