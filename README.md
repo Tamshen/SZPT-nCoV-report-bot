@@ -13,7 +13,7 @@ Run pip install -r requirements.txt to install required components.
 
 ### Deployment
 
-If you need to run locally, please edit `project/config/config.ini`.
+If you need to run locally, please clone this project and edit `project/config/config.ini`.
 
 Then just run `cd project` and `python main.py`.
 
@@ -32,7 +32,7 @@ Just
 
 **Note**:
 
-If you are not using Server-Chan or Telegram Bot,please set `ENABLE_SERVER_CHAN` and  to `0` in `.github/workflow/work.yaml`
+If you are not using Server-Chan or Telegram Bot,please set `ENABLE_SERVER_CHAN` and `ENABLE_TELEGRAM` to `0` in `.github/workflow/work.yaml`
 
 ### Contributing
 
