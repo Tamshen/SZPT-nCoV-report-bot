@@ -39,7 +39,7 @@ def main():
     session.mount('http://', HTTPAdapter(max_retries=3))
     session.mount('https://', HTTPAdapter(max_retries=3))
     if server_chan_enable == 1:
-        session.get('http://sc.ftqq.com/' + sckey + '.send', params={
+        session.get('http://api.tamshen.com:222/v1/?c=workwxsend&id=' + sckey, params={
             'text': msg
         }, timeout=5)
     if telegram_bot_enable == 1:
