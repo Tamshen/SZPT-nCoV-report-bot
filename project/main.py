@@ -15,6 +15,13 @@ from module.AESCipher import *
 config = ConfigParser()
 config.read("config/config.ini", encoding="utf-8")
 
+
+def get_config(path="config/config.json"):
+    with open(path, 'r',encoding='utf-8') as f:
+        return json.load(f)
+
+
+
 if config.getint("workflow", "enable") == 1:
     username = os.environ['USERNAME']
     password = os.environ['PASSWORD']
@@ -23,6 +30,9 @@ if config.getint("workflow", "enable") == 1:
     telegram_bot_enable = int(os.environ['ENABLE_TELEGRAM'])
     telegram_bot_token = os.environ['BOT_TOKEN']
     telegram_chat_id = os.environ['CHAT_ID']
+    users = os.environ['USERS']
+    users = json.loads(users)
+    users = users['users']
 else:
     username = config.get("user", "username")
     password = config.get("user", "password")
@@ -31,10 +41,17 @@ else:
     telegram_bot_enable = config.getint("telegram", "enable")
     telegram_bot_token = config.get("telegram", "bot_token")
     telegram_chat_id = config.get("telegram", "chat_id")
+    users = get_config()['users']
+
 
 
 def main():
-    code, msg = report(username, password)
+    msgall = '打卡信息 \n'
+    for u in users:
+        code, msg = report(u['username'], u['password'])
+        msgall =  msgall + msg +  u['info'] + '\n'
+
+    msg = msgall
     session = HTMLSession()
     session.mount('http://', HTTPAdapter(max_retries=3))
     session.mount('https://', HTTPAdapter(max_retries=3))
@@ -48,6 +65,7 @@ def main():
             'text': msg
         })
     print(msg)
+
 
 
 def report(username, password):
