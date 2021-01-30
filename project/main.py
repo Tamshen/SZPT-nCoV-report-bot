@@ -30,7 +30,7 @@ if config.getint("workflow", "enable") == 1:
     telegram_bot_enable = int(os.environ['ENABLE_TELEGRAM'])
     telegram_bot_token = os.environ['BOT_TOKEN']
     telegram_chat_id = os.environ['CHAT_ID']
-    users = os.environ['USERS']
+    users = os.environ['JSON']
     users = json.loads(users)
     users = users['users']
 else:
