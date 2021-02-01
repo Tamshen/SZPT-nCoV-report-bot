@@ -33,6 +33,7 @@ if config.getint("workflow", "enable") == 1:
     users = os.environ['JSON']
     users = json.loads(users)
     users = users['users']
+    printlog = 0
 else:
     username = config.get("user", "username")
     password = config.get("user", "password")
@@ -42,6 +43,7 @@ else:
     telegram_bot_token = config.get("telegram", "bot_token")
     telegram_chat_id = config.get("telegram", "chat_id")
     users = get_config()['users']
+    printlog = 1
 
 
 
@@ -66,7 +68,10 @@ def main():
             'chat_id': telegram_chat_id,
             'text': msg
         })
-    print(msg)
+
+    # no print
+    if printlog == 1:
+        print(msg)
 
 
 
