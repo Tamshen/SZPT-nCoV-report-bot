@@ -46,11 +46,13 @@ else:
 
 
 def main():
-    msgall = '打卡信息 \n'
+    msgall = '打卡信息'
     for u in users:
         code, msg = report(u['username'], u['password'])
-        msgall =  msgall + msg +  u['info'] + '\n'
-
+        if code == 500:
+            msgall =  msgall + '\n' + msg +  "失败，错误信息：" +  u['info']
+        else:
+            msgall =  msgall + '\n' + msg +  u['info']
     msg = msgall
     session = HTMLSession()
     session.mount('http://', HTTPAdapter(max_retries=3))
@@ -135,7 +137,8 @@ def report(username, password):
 
     # Validator
     if respond.json()['code'] == '0':
-        return 200, username + "  提交成功"
+       #  return 200, username + " 提交成功"
+        return 200, data['USER_ID'] + " 提交成功"
     else:
         return 500, respond.json()
 
