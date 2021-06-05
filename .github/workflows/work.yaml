@@ -6,8 +6,8 @@ on:
 #  watch:
 #    types: started
   schedule:
-#   七点自动填报 (UTC 23:00)
-    - cron: '0 23 * * *'
+#   七点30自动填报 (UTC 23:30)
+    - cron: '30 23 * * *'
 
 jobs:
   report:
